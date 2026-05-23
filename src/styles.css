@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: TwitterChirpExtendedHeavy;
+    src: url("/chirp-extended-heavy-web.woff2") format('woff2'), url("/chirp-extended-heavy-web.woff") format('woff');
+    font-weight: 800;
+    font-style: 'normal';
+    font-display: 'swap';
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: TwitterChirpExtendedHeavy;
+}
+
+body {
+    background-color: black;
+    height: 100vh;
+}
+
+app-login-screen {
+    width: 100%;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
