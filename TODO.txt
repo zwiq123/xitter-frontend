@@ -1,0 +1,17 @@
+LOGIN PAGE:
+ - REGISTER:
+   - image upload, image show, username check, register
+ - LOGIN:
+   - forgot password
+   - login, token
+
+mainpage
+check login
+login/register
+layout
+see posts
+see profile
+logout
+create posts
+
+responsiveness

@@ -4,13 +4,13 @@
         gap: 30px;
     }
 
-    img {
+    #logo {
         width: 150px;
     }
 }
 
 @media only screen and (max-width: 650px) and (min-width: 551px) {
-    img {
+    #logo {
         width: 100%;
     }
 }
@@ -38,7 +38,7 @@ p {
     margin-bottom: 15px;
 }
 
-button, a {
+button, a, label {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +46,7 @@ button, a {
     font-family: Arial;
     margin-bottom: 16px;
     width: 300px;
-    height: 40px;
+    height: 48px;
     flex: 0 0 auto;
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(51, 54, 57);
@@ -55,6 +55,31 @@ button, a {
     border-radius: 9999px;
     font-size: 15px;
     font-weight: bold;
+}
+
+button[disabled] {
+    background-color: rgb(212, 212, 212);
+    color: rgb(120, 113, 108);
+    cursor: default;
+}
+
+button[disabled]:hover {
+    background-color: rgb(212, 212, 212);
+}
+
+button.stripped {
+    background-color: transparent;
+    color: white;
+    border: none;
+    width: auto;
+    height: auto;
+    text-align: left;
+    display: block;
+    border-radius: 0;
+}
+
+button.stripped:hover {
+    background: transparent;
 }
 
 button.black, a.black {
@@ -69,10 +94,141 @@ button.black:hover, a.black:hover {
     background-color: rgba(239, 243, 244, 0.1);
 }
 
-button:hover, a:hover {
+button:hover, a:hover, label:hover {
     background-color: rgb(230, 230, 230);
 }
 
 #logo {
     opacity: 75%;
 }
+
+#dialog-background {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(180, 180, 182, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 0;
+    flex-direction: column;
+}
+
+#dialog-background.open {
+    display: flex;
+}
+
+.dialog {
+    width: 700px;
+    border-radius: 24px;
+    background-color: black;
+    flex: 1;
+    display: none;
+    flex-direction: column;
+}
+
+.dialog.open {
+    display: flex;
+}
+
+.dialog img {
+    width: 40px;
+}
+
+.dialog-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 112px;
+}
+
+.dialog-header .back-icon {
+    box-sizing: content-box;
+    width: 24px;
+    height: 24px;
+    margin: 16px;
+    padding: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog-header .back-icon:hover {
+    background-color: gray;
+}
+
+.dialog-body {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.dialog-body p, .dialog-body label {
+    margin: 0;
+}
+
+.dialog-body button, .dialog-body h2 {
+    width: 100%;
+}
+
+.dialog-body h2 {
+    font-size: 31px;
+    font-weight: 700;
+}
+
+.dialog-body input {
+    width: calc(100% - 16px);
+    box-sizing: content-box;
+    height: 40px;
+    border-radius: 6px;
+    background-color: transparent;
+    padding: 8px;
+    color: white;
+    border: 1px solid rgb(209, 213, 219);
+    font-family: Arial;
+    font-size: 17px;
+}
+
+.dialog-body button.bottom {
+    align-self: flex-end;
+}
+
+.dialog-body p.error {
+    color: rgb(239, 68, 68);
+    height: auto;
+    font-size: 12px;
+    font-style: normal;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-align: left;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dialog-body p.error.off {
+    display: none;
+}
+
+.dialog-footer {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog-body input[type=file] {display: none}
