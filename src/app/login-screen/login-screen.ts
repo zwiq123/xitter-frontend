@@ -1,32 +1,68 @@
-import { Component, signal, computed, input } from '@angular/core';
+import { Component, signal, computed, output, model, linkedSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Dialog } from '../dialog/dialog';
 
 @Component({
   selector: 'app-login-screen',
-  imports: [RouterLink],
+  imports: [Dialog],
   templateUrl: './login-screen.html',
   styleUrl: './login-screen.css',
 })
 export class LoginScreen {
 
-  // general dialog
+  clickLogin = output<void>();
+  updateAccessToken = output<string>();
 
-  dialogOpen = signal(false);
+  async logIn() {
+    if (!this.isLoginReady()) return;
+
+    const signinJSON = {
+      "username": this.loginUsername(),
+      "password": this.loginPassword()
+    };
+    
+    fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(signinJSON)
+    }).then(async res => {
+      console.log("asd")
+      try {
+        const data = await res.json();
+        if (data["access_token"]) {
+          this.updateAccessToken.emit(data["access_token"]);
+          this.clickLogin.emit();
+          return;
+        }
+
+        if (data["statusCode"] && data["statusCode"]==401) {
+          this.loginErrorMessage.set("Nieprawidłowe dane logowania");
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    })
+  }
+
+  // -----
+
+  finishDialogOpen = signal(false);
+
+  openFinishDialog() {
+    this.finishDialogOpen.set(true);
+  }
+
+  closeFinishDialog() {
+    this.finishDialogOpen.set(false);
+  }
 
   closeDialog() {
-    this.dialogOpen.set(false);
-    this.loginDialogOpen.set(false);
-    this.registerDialog1Open.set(false);
-    this.registerDialog2Open.set(false);
-
-    this.loginPassword.set("");
-    this.loginUsername.set("");
-    this.registerPassword.set("");
-    this.registerRepeatPassword.set("");
-    this.registerUsername.set("");
-    this.registerEmail.set("");
-    this.registerImageFilename.set("");
-    this.registerImageUrl.set("");
+    this.closeResetDialog();
+    this.closeLoginDialog();
+    this.closeRegisterDialog();
+    this.closeFinishDialog();
   }
 
   // loginDialog
@@ -34,9 +70,7 @@ export class LoginScreen {
   loginDialogOpen = signal(false);
 
   openLoginDialog() {
-    this.dialogOpen.set(true);
-    this.registerDialog1Open.set(false)
-    this.registerDialog2Open.set(false)
+    this.closeDialog();
     this.loginDialogOpen.set(true);
   }
 
@@ -59,54 +93,55 @@ export class LoginScreen {
     this.loginPassword.set($event.target.value);
   }
 
-  loginErrorMessage = computed(() => {
+  loginErrorMessage = linkedSignal(() => {
     return "";
   });
 
+  isLoginReady = computed(() => {
+    return this.loginUsername() != "" && this.loginPassword() != "";
+  })
+
   // registerDialog
 
-  registerDialog1Open = signal(false);
-  registerDialog2Open = signal(false);
+  registerStepOneDialogOpen = signal(false);
+  registerStepTwoDialogOpen = signal(false);
 
-  openRegister1Dialog() {
-    this.dialogOpen.set(true);
+  openRegisterStepOneDialog() {
     this.loginDialogOpen.set(false)
-    this.registerDialog1Open.set(true);
-    this.registerDialog2Open.set(false);
+    this.registerStepOneDialogOpen.set(true);
+    this.registerStepTwoDialogOpen.set(false);
+    this.resetDialogOpen.set(false);
   }
 
   closeRegisterDialog() {
-    this.registerDialog1Open.set(false);
-    this.registerDialog2Open.set(false);
+    this.closeRegisterStepTwoDialog();
+    this.registerStepOneDialogOpen.set(false);
     this.registerPassword.set("");
     this.registerRepeatPassword.set("");
-    this.registerUsername.set("");
     this.registerEmail.set("");
-    this.registerImageFilename.set("");
-    this.registerImageUrl.set("");
   }
 
-  openRegister2Dialog() {
-    this.dialogOpen.set(true);
+  openRegisterStepTwoDialog() {
     this.loginDialogOpen.set(false);
-    this.registerDialog1Open.set(false);
-    this.registerDialog2Open.set(true);
+    this.registerStepOneDialogOpen.set(false);
+    this.resetDialogOpen.set(false);
+    this.registerStepTwoDialogOpen.set(true);
   }
 
-  closeRegister2Dialog() {
-    this.registerDialog2Open.set(false);
-    this.registerDialog1Open.set(true);
+  closeRegisterStepTwoDialog() {
+    this.registerStepTwoDialogOpen.set(false);
+    this.registerStepOneDialogOpen.set(true);
     this.registerUsername.set("");
-    this.registerImageFilename.set("");
-    this.registerImageUrl.set("");
+    this.registerStepTwoErrorMessage.set("");
+    this.registerImageUrl.set("/default_profile_pic.png");
   }
 
   registerEmail = signal("");
   registerPassword = signal("");
   registerRepeatPassword = signal("");
   registerUsername = signal("");
-  registerImageUrl = signal("");
-  registerImageFilename = signal("");
+  registerImageUrl = signal("/default_profile_pic.png");
+  registerImageFile = signal<File | undefined>(undefined);
 
   isEmailAnEmail = () => {
     return this.registerEmail()
@@ -148,16 +183,83 @@ export class LoginScreen {
     const target = $event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
-      this.registerImageFilename.set(file.name);
-
-      fetch("/api/post")
-      .then(res => res.json())
-      .then(data => console.log(data));
+      this.registerImageFile.set(file);
 
       const url = URL.createObjectURL(file);
       this.registerImageUrl.set(url);
     }
   }
+
+  async createAccount() {
+    const uploadToken = (await fetch("/api/auth/preRegister").then(res => res.json()))["upload_token"];
+    console.log(uploadToken);
+
+    let file: File;
+    if (!this.registerImageFile()) {
+      const defaultProfilePicBlob = await fetch("/default_profile_pic.png")
+                                      .then(res => res.blob());
+
+      file = new File([defaultProfilePicBlob], "default_profile_pic.png", {type: "image/png"});
+    } else {
+      file = this.registerImageFile()!;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    const imageID = (await fetch("/api/media/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Authorization": `Bearer ${uploadToken}`
+      }
+    }
+    )
+    .then(res => res.json()))["id"];
+    console.log(imageID);
+
+    const signupJSON = {
+      "username": this.registerUsername(),
+      "email": this.registerEmail(),
+      "password": this.registerPassword(),
+      "imageId": imageID
+    };
+
+    fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(signupJSON)
+    }).then(async res => {
+      try {
+        const data = await res.json();
+        if (data["access_token"]) {
+          this.updateAccessToken.emit(data["access_token"]);
+          this.clickLogin.emit();
+          return;
+        }
+
+        if (data["statusCode"] && data["statusCode"]==409) {
+          this.registerStepTwoErrorMessage.set("Istnieje już konto o podanym e-mailu lub nazwie użytkownika.");
+          return;
+        }
+
+        if (data["message"]) {
+          this.openFinishDialog();
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    })
+  }
+
+  isRegisterStepTwoReady = computed(() => {
+    if (!this.isRegisterStepOneReady()) return false;
+    if (this.registerUsername() == "") return false;
+    if (this.registerImageUrl() == "") return false;
+    return true;
+  })
 
   registerStepOneErrorMessage = computed(() => {
     if (this.registerEmail().length != 0 && !this.isEmailAnEmail()) return "Nieprawidłowy format emaila."
@@ -213,8 +315,38 @@ export class LoginScreen {
     return "";
   });
 
-  registerStepTwoErrorMessage = computed(() => {
+  registerStepTwoErrorMessage = signal("");
+
+  // reset dialog
+
+  resetDialogOpen = signal(false);
+
+  openResetDialog() {
+    this.resetDialogOpen.set(true);
+    this.loginDialogOpen.set(false);
+  }
+
+  closeResetDialog() {
+    this.resetDialogOpen.set(false);
+    this.loginDialogOpen.set(true);
+    this.resetEmailOrUsername.set("");
+  }
+
+  resetEmailOrUsername = signal("");
+
+  updateResetEmailOrUsername($event: any){
+    if (!$event.target) return;
+    this.resetEmailOrUsername.set($event.target.value);
+  }
+
+  resetErrorMessage = computed(() => {
     return "";
   })
+
+  isResetReady = computed(() => {
+    return this.resetEmailOrUsername() != "";
+  })
+
+
 
 }

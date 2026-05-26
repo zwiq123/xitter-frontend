@@ -1,47 +1,5 @@
-@media only screen and (max-width: 550px) {
-    #login-screen-main {
-        flex-direction: column-reverse;
-        gap: 30px;
-    }
-
-    #logo {
-        width: 150px;
-    }
-}
-
-@media only screen and (max-width: 650px) and (min-width: 551px) {
-    #logo {
-        width: 100%;
-    }
-}
-
-#login-screen-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
-    height: 100%;
-}
-
-#login-screen-main > div {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-h1 {
-    margin-bottom: 20px;
-    text-wrap: nowrap;
-}
-
 p {
     margin-bottom: 15px;
-}
-
-#login-screen-main button,
-#login-screen-main a,
-#login-screen-main label {
-    margin-bottom: 16px;
 }
 
 button, a, label {
@@ -107,12 +65,6 @@ button:hover, a:hover, label:hover {
     opacity: 75%;
 }
 
-.profilepic {
-    border-radius: 50%;
-    border: 1px solid white;
-}
-
-/* dialog */
 .dialog-background {
     width: 100%;
     height: 100%;
@@ -195,3 +147,59 @@ button:hover, a:hover, label:hover {
     font-size: 31px;
     font-weight: 700;
 }
+
+::ng-deep input {
+    width: calc(100% - 16px);
+    box-sizing: content-box;
+    height: 40px;
+    border-radius: 6px;
+    background-color: transparent;
+    padding: 8px;
+    color: white;
+    border: 1px solid rgb(209, 213, 219);
+    font-family: Arial;
+    font-size: 17px;
+}
+
+::ng-deep input[type=file] {display: none;}
+
+::ng-deep .dialog-body p {margin: 0;}
+
+.dialog-body button.bottom {
+    align-self: flex-end;
+}
+
+.dialog-body p.error {
+    color: rgb(239, 68, 68);
+    height: auto;
+    font-size: 12px;
+    font-style: normal;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-align: left;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dialog-body p.error.off {
+    display: none;
+}
+
+.dialog-body p.hint, ::ng-deep p.hint {
+    color: rgb(115, 115, 115);
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-align: left;
+    width: 100%;
+}
+
+.dialog-footer {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog-body input[type=file] {display: none}
