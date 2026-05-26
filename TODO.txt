@@ -1,9 +1,13 @@
-LOGIN PAGE:
- - REGISTER:
-   - image upload, image show, username check, register
- - LOGIN:
-   - forgot password
-   - login, token
+reset password ?
+
+feed display
+profile details display
+profile details edit
+post create
+follow
+block
+mute
+
 
 mainpage
 check login
@@ -15,3 +19,5 @@ logout
 create posts
 
 responsiveness
+exceptions
+console

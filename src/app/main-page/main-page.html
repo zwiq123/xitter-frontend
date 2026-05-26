@@ -1,1 +1,16 @@
-<p>main-page works!</p>
+<div id="profile">
+    <img alt="profilepic" [src]="loggedInProfile().image" width="40" height="40">
+    <div id="profilename">
+        <span id="username">{{loggedInProfile().name}}</span>
+        <span id="tag">@{{loggedInProfile().tag}}</span>
+    </div>
+    <div id="rightside">
+        <button type="button" (click)="logout()">
+            <img alt="logout" src="/logout.png" width="26" height="26">
+        </button>
+    </div>
+</div>
+
+<div id="feed">
+
+</div>

@@ -1,0 +1,61 @@
+#profile {
+    box-sizing: content-box;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 235px;
+    height: 40px;
+    border-radius: 9999px;
+    padding: 12px;
+    transition: 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgb(231, 233, 234);
+}
+
+#profile:hover {
+    background-color: rgba(231, 233, 234, 0.1);
+}
+
+#profilename {
+    display: flex;
+    flex-direction: column;
+}
+
+#profile #rightside {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+}
+
+#profile #rightside button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    outline: none;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#profile #rightside button:hover {
+    background-color: rgba(231, 233, 234, 0.1);
+}
+
+#profile #tag {
+    color: rgb(113, 118, 123);
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#feed {
+    background-color: rgb(11, 11, 11);
+    height: 100%;
+    flex: 1;
+}

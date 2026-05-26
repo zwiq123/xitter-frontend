@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MainPage } from './main-page/main-page';
 import { LoginScreen } from './login-screen/login-screen';
@@ -12,7 +12,6 @@ import { LoginScreen } from './login-screen/login-screen';
 export class App {
   protected readonly title = signal('xitter-frontend');
   loggedIn = signal(false);
-
   accessToken = signal("");
 
   clickLogin() {
@@ -23,13 +22,28 @@ export class App {
     this.accessToken.set(token);
   }
 
+  loggedInUUID = computed(() => {
+    try {
+      const base64URL = this.accessToken().split(".")[1];
+      const base64 = base64URL.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function(c){
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(""));
+
+      return JSON.parse(jsonPayload)["sub"];
+    } catch(err) {
+      console.log(err)
+      return null;
+    }
+  })
+
   async clickLogout() {
     await fetch("/api/auth/logout", {method: "POST"});
     this.loggedIn.set(false);
   }
 
   ngOnInit() {
-    this.clickLogout();
+    // this.clickLogout();
     fetch("/api/auth/refresh", {method: "POST"})
     .then(async res => {
       try {

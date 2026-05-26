@@ -28,12 +28,12 @@ export class LoginScreen {
       },
       body: JSON.stringify(signinJSON)
     }).then(async res => {
-      console.log("asd")
       try {
         const data = await res.json();
         if (data["access_token"]) {
           this.updateAccessToken.emit(data["access_token"]);
           this.clickLogin.emit();
+          console.log(data["access_token"]);
           return;
         }
 

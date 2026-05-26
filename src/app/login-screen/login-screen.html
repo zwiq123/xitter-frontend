@@ -60,7 +60,7 @@
     dialogHint="Wprowadź swój adres e-mail lub nazwę użytkownika, aby zresetować hasło." 
     [dialogOpen]="resetDialogOpen()" 
     (closeDialog)="closeResetDialog()" 
-    [isReady]="false" 
+    [isReady]="isResetReady()" 
     [errorMessage]="resetErrorMessage()">
 
     <input autocomplete="off" placeholder="E-mail lub nazwa użytkownika" [value]="resetEmailOrUsername()" (input)="updateResetEmailOrUsername($event)">
