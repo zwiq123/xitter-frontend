@@ -21,7 +21,6 @@ export class MainPage {
     .then(async res => {
       try {
         const data = await res.json();
-        console.log(data);
         if (data["id"]) {
           this.loggedInProfile.set(data);
         }

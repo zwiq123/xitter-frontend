@@ -27,13 +27,15 @@ export class LoginScreen {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(signinJSON)
-    }).then(async res => {
+    })
+    // .then(res => res.text())
+    // .then(data => console.log(data));
+    .then(async res => {
       try {
         const data = await res.json();
         if (data["access_token"]) {
           this.updateAccessToken.emit(data["access_token"]);
           this.clickLogin.emit();
-          console.log(data["access_token"]);
           return;
         }
 
@@ -41,8 +43,13 @@ export class LoginScreen {
           this.loginErrorMessage.set("Nieprawidłowe dane logowania");
         }
       } catch(err) {
+        console.log("errorerror")
         console.log(err);
       }
+    })
+    .catch(err => {
+      console.log("erroerrror");
+      console.log(err);
     })
   }
 
@@ -78,6 +85,7 @@ export class LoginScreen {
     this.loginDialogOpen.set(false);
     this.loginPassword.set("");
     this.loginUsername.set("");
+    this.loginErrorMessage.set("");
   }
 
   loginUsername = signal("");
@@ -192,7 +200,6 @@ export class LoginScreen {
 
   async createAccount() {
     const uploadToken = (await fetch("/api/auth/preRegister").then(res => res.json()))["upload_token"];
-    console.log(uploadToken);
 
     let file: File;
     if (!this.registerImageFile()) {
@@ -216,7 +223,6 @@ export class LoginScreen {
     }
     )
     .then(res => res.json()))["id"];
-    console.log(imageID);
 
     const signupJSON = {
       "username": this.registerUsername(),

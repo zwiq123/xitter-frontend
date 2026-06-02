@@ -1,5 +1,5 @@
 <div id="profile">
-    <img alt="profilepic" [src]="loggedInProfile().image" width="40" height="40">
+    <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40">
     <div id="profilename">
         <span id="username">{{loggedInProfile().name}}</span>
         <span id="tag">@{{loggedInProfile().tag}}</span>
