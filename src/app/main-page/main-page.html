@@ -1,16 +1,29 @@
-<div id="profile">
-    <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40">
-    <div id="profilename">
-        <span id="username">{{loggedInProfile().name}}</span>
-        <span id="tag">@{{loggedInProfile().tag}}</span>
+<div id="center-box">
+    <div id="left-menu">
+        <header>
+            <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30"></button>
+        </header>
+        <div id="profile">
+            <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40">
+            <div id="profilename">
+                <span id="username">{{loggedInProfile().name}}</span>
+                <span id="tag">@{{loggedInProfile().tag}}</span>
+            </div>
+            <div id="rightside">
+                <button type="button" (click)="logout()">
+                    <img alt="logout" src="/logout.png" width="26" height="26">
+                </button>
+            </div>
+        </div>
     </div>
-    <div id="rightside">
-        <button type="button" (click)="logout()">
-            <img alt="logout" src="/logout.png" width="26" height="26">
-        </button>
+    
+    <div id="feed">
+
+    </div>
+
+    <div id="right-menu">
+
     </div>
 </div>
 
-<div id="feed">
 
-</div>

@@ -45,6 +45,7 @@ export class App {
   ngOnInit() {
     // this.clickLogout();
     // return;
+
     fetch("/api/auth/refresh", {method: "POST", credentials: "include"})
     // .then(res => res.text())
     // .then(data => console.log(data))

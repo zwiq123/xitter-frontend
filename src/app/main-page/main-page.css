@@ -1,9 +1,66 @@
+@media only screen and (max-width: 1148px) {
+    #profile div {
+        display: none !important;
+    }
+
+    #profile{
+        width: 40px;
+    }
+
+    #right-menu {
+        width: 64px;
+    }
+}
+
+@media only screen and (min-width: 1149px) {
+    #profile, #right-menu {
+        width: 235px;
+    }
+}
+
+#center-box {
+    width: 100%;
+    max-width: 1116px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#left-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+}
+
+#right-menu {
+    padding: 0 8px;
+}
+
+header {
+    padding: 2px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+header button {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    cursor: pointer;
+}
+
 #profile {
-    box-sizing: content-box;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 235px;
+    justify-self: flex-end;
     height: 40px;
     border-radius: 9999px;
     padding: 12px;
@@ -19,7 +76,7 @@
     border-radius: 50%;
 }
 
-#profile:hover {
+#profile:hover, header button:hover {
     background-color: rgba(231, 233, 234, 0.1);
 }
 
@@ -61,5 +118,7 @@
 #feed {
     background-color: rgb(11, 11, 11);
     height: 100%;
-    flex: 1;
+    width: 100%;
+    padding: 0 16px;
+    max-width: 566px;
 }

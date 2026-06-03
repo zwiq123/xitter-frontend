@@ -60,6 +60,7 @@ button, a, label {
     border-radius: 9999px;
     font-size: 15px;
     font-weight: bold;
+    user-select: none;
 }
 
 button[disabled] {
