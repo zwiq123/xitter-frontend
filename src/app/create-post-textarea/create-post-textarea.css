@@ -1,0 +1,77 @@
+textarea, #highlight-layer {
+    min-height: 24px;
+    box-sizing: content-box;
+    padding: 8px 0;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: rgb(231, 233, 234);
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 24px;
+    text-size-adjust: 100%;
+    white-space-collapse: preserve;
+    font-weight: 400;
+    /* caret-color: #1d9bf0; */
+    caret-color: white;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: normal;
+    word-spacing: normal;
+    font-kerning: none;
+    font-variant-ligatures: none;
+    font-feature-settings: "tnum", "liga" 0;
+}
+
+textarea::selection {
+  background-color: rgba(29, 155, 240, 0.2);
+  color: transparent !important;
+}
+
+textarea::-webkit-selection {
+  background-color: rgba(29, 155, 240, 0.2);
+  color: transparent !important;
+}
+
+textarea {
+    height: 24px;
+    color: transparent;
+}
+
+#highlight-layer {
+    box-sizing: border-box;
+    height: calc(100% - 4px); 
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
+#textarea-container {
+  position: relative;
+  width: 100%;
+  box-sizing: content-box;
+  min-height: 24px;
+}
+
+::ng-deep .hashtag{
+    color: #1d9bf0;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    text-size-adjust: 100%;
+    white-space-collapse: preserve;
+    font-weight: 400;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+}

@@ -43,13 +43,8 @@ export class LoginScreen {
           this.loginErrorMessage.set("Nieprawidłowe dane logowania");
         }
       } catch(err) {
-        console.log("errorerror")
         console.log(err);
       }
-    })
-    .catch(err => {
-      console.log("erroerrror");
-      console.log(err);
     })
   }
 
@@ -238,8 +233,12 @@ export class LoginScreen {
       },
       body: JSON.stringify(signupJSON)
     }).then(async res => {
+      if (!res.ok) {
+        console.log("ok")
+      }
       try {
         const data = await res.json();
+        
         if (data["access_token"]) {
           this.updateAccessToken.emit(data["access_token"]);
           this.clickLogin.emit();
@@ -255,6 +254,7 @@ export class LoginScreen {
           this.openFinishDialog();
         }
       } catch(err) {
+        console.log("error")
         console.log(err);
       }
     })

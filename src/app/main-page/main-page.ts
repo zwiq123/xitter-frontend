@@ -1,8 +1,9 @@
 import { Component, input, signal, output } from '@angular/core';
+import { CreatePost } from '../create-post/create-post';
 
 @Component({
   selector: 'app-main-page',
-  imports: [],
+  imports: [CreatePost],
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })
@@ -15,6 +16,7 @@ export class MainPage {
 
   loggedInUUID = input.required<string>();
   loggedInProfile = signal<any>({});
+  accessToken = input.required<string>();
 
   ngOnInit() {
     fetch(`/api/user/${this.loggedInUUID()}`)
@@ -29,4 +31,5 @@ export class MainPage {
       }
     })
   }
+
 }

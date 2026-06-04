@@ -1,5 +1,5 @@
-<div id="center-box">
-    <div id="left-menu">
+<div id="main-box">
+    <div id="left-box">
         <header>
             <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30"></button>
         </header>
@@ -9,7 +9,7 @@
                 <span id="username">{{loggedInProfile().name}}</span>
                 <span id="tag">@{{loggedInProfile().tag}}</span>
             </div>
-            <div id="rightside">
+            <div id="profile-rightside">
                 <button type="button" (click)="logout()">
                     <img alt="logout" src="/logout.png" width="26" height="26">
                 </button>
@@ -17,11 +17,14 @@
         </div>
     </div>
     
-    <div id="feed">
+    <div id="center-box">
+        <app-create-post [loggedInProfile]="loggedInProfile()" [accessToken]="accessToken()"></app-create-post>
+        <div id="feed">
 
+        </div>
     </div>
 
-    <div id="right-menu">
+    <div id="right-box">
 
     </div>
 </div>

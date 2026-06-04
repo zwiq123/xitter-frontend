@@ -8,6 +8,7 @@ follow
 block
 mute
 
+textarea caret color change
 
 mainpage
 check login

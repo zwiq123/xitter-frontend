@@ -1,0 +1,6 @@
+<div id="textarea-container">
+  <div id="highlight-layer" [innerHTML]="modifiedText()"></div>
+
+  <textarea (input)="handlePostTextArea($event)" placeholder="Co się dzieje?" spellcheck="false"></textarea>
+
+</div>

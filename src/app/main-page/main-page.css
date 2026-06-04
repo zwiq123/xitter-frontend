@@ -7,18 +7,18 @@
         width: 40px;
     }
 
-    #right-menu {
+    #right-box {
         width: 64px;
     }
 }
 
 @media only screen and (min-width: 1149px) {
-    #profile, #right-menu {
+    #profile, #right-box {
         width: 235px;
     }
 }
 
-#center-box {
+#main-box {
     width: 100%;
     max-width: 1116px;
     height: 100%;
@@ -27,7 +27,7 @@
     justify-content: center;
 }
 
-#left-menu {
+#left-box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +35,7 @@
     padding: 0 8px;
 }
 
-#right-menu {
+#right-box {
     padding: 0 8px;
 }
 
@@ -57,6 +57,7 @@ header button {
     justify-content: center;
     padding: 12px;
     cursor: pointer;
+    user-select: none;
 }
 
 #profile {
@@ -70,10 +71,12 @@ header button {
     align-items: center;
     gap: 12px;
     color: rgb(231, 233, 234);
+    margin: 12px 0
 }
 
 #profile img {
     border-radius: 50%;
+    user-select: none;
 }
 
 #profile:hover, header button:hover {
@@ -85,14 +88,14 @@ header button {
     flex-direction: column;
 }
 
-#profile #rightside {
+#profile #profile-rightside {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     flex: 1;
 }
 
-#profile #rightside button {
+#profile #profile-rightside button {
     width: 40px;
     height: 40px;
     border: none;
@@ -106,7 +109,7 @@ header button {
     transition: 0.2s;
 }
 
-#profile #rightside button:hover {
+#profile #profile-rightside button:hover {
     background-color: rgba(231, 233, 234, 0.1);
 }
 
@@ -115,10 +118,18 @@ header button {
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-#feed {
-    background-color: rgb(11, 11, 11);
+#center-box {
+    /* background-color: rgb(11, 11, 11); */
     height: 100%;
     width: 100%;
-    padding: 0 16px;
     max-width: 566px;
+    display: flex;
+    flex-direction: column;
+    border-width: 0 1px;
+    border-color: rgb(47, 51, 54);
+    border-style: solid;
+}
+
+#feed {
+    padding: 0 16px;
 }
