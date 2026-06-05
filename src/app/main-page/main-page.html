@@ -1,17 +1,17 @@
 <div id="main-box">
     <div id="left-box">
         <header>
-            <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30"></button>
+            <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30" loading="lazy"></button>
         </header>
         <div id="profile">
-            <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40">
+            <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40" loading="lazy">
             <div id="profilename">
                 <span id="username">{{loggedInProfile().name}}</span>
                 <span id="tag">@{{loggedInProfile().tag}}</span>
             </div>
             <div id="profile-rightside">
                 <button type="button" (click)="logout()">
-                    <img alt="logout" src="/logout.png" width="26" height="26">
+                    <img alt="logout" src="/logout.png" width="26" height="26" loading="lazy">
                 </button>
             </div>
         </div>
@@ -22,8 +22,9 @@
         <div id="feed">
             @for(post of feed() ; track $index) {
                 <!-- <p>{{post.score}}</p> -->
-                <app-post [postData]="post.post"></app-post>
+                <app-post [postData]="post.post" [accessToken]="accessToken()" [loggedInProfile]="loggedInProfile()"></app-post>
             }
+            <p class="end-of-posts">Koniec postów...</p>
         </div>
     </div>
 

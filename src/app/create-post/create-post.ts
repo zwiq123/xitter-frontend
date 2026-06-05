@@ -1,5 +1,6 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { CreatePostTextarea } from '../create-post-textarea/create-post-textarea';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-create-post',
@@ -8,6 +9,8 @@ import { CreatePostTextarea } from '../create-post-textarea/create-post-textarea
   styleUrl: './create-post.css',
 })
 export class CreatePost {
+
+  private toastr = inject(ToastrService)
 
   loggedInProfile = input.required<any>();
   accessToken = input.required<string>();
@@ -26,7 +29,6 @@ export class CreatePost {
   firstImageAspectRatio = signal(0);
 
   addImageToPost($event: any) {
-    console.log("hello")
     const input = $event.target as HTMLInputElement;
     
     if (input.files && input.files.length == 1) {
@@ -47,8 +49,6 @@ export class CreatePost {
       }
 
       input.value = '';
-      console.log(this.imageFiles())
-      console.log(this.imageUrls())
     }
   }
 
@@ -79,8 +79,6 @@ export class CreatePost {
       "mediaIds": imageIDs
     }
 
-    console.log(postJSON);
-
     fetch("/api/post/create", {
       method: "POST",
       body: JSON.stringify(postJSON),
@@ -91,7 +89,13 @@ export class CreatePost {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      if (data.id) {
+        this.postLoading.set(false);
+        this.postTextContent.set("");
+        this.imageFiles.set([]);
+        this.imageUrls.set([]);
+        this.toastr.success("Post dodany", "Udało się")
+      }
     })
   
   }

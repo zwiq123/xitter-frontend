@@ -16,6 +16,7 @@ reset pass
 loading (account creation, page refresh, post creation)
 toasts (post creation)
 post image display
+post videos
 
 post click
 

@@ -22,6 +22,15 @@ export class MainPage {
   feed = signal<any[]>([])
 
   ngOnInit() {
+
+    // fetch(`/api/post/ce80095d-5c76-4be8-8006-cf45ecef6a54`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Authorization": `Bearer ${this.accessToken()}`
+    //     }
+    //   }
+    // )
+
     fetch(`/api/user/${this.loggedInUUID()}`)
     .then(async res => {
       try {
@@ -41,8 +50,19 @@ export class MainPage {
       })
       .then(res => res.json())
       .then(data => {
-        this.feed.set(data);
-        console.log(this.feed()[0])
+        const feedPosts = [];
+        for (const post of data) {
+          const postData = post.post;
+          const score = post.score;
+          if (postData.reposts) {
+            continue;
+            // feedPosts.push({score, post: {...postData.reposts, repostedBy: postData.reposts.author, author: postData.author}});
+          } else {
+            feedPosts.push(post);
+          }
+        }
+        this.feed.set(feedPosts);
+        console.log(this.feed())
       })
     })
   }

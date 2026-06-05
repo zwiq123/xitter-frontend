@@ -147,6 +147,9 @@ header button {
     border-style: solid;
 }
 
-::ng-deep app-post:nth-last-child(1) .post-body {
-    border-bottom: none;
+.end-of-posts {
+    text-align: center;
+    padding: 20px;
+    color: rgb(113, 118, 123);
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
