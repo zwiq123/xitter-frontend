@@ -18,6 +18,9 @@
                 </svg>
                 {{errorMessage()}}
             </p>
+            @if (loading()) {
+                <img alt="loading" src="/loading.gif">
+            }
         </div>
         <div class="dialog-footer">
             <button type="button" class="bottom" [disabled]="!isReady()" (click)="continue()">Kontynuuj</button>

@@ -29,7 +29,7 @@
     [dialogOpen]="registerStepOneDialogOpen()" 
     (closeDialog)="closeDialog()"
     (continueClick)="openRegisterStepTwoDialog()"
-    [isReady]="isRegisterStepOneReady() ?? false" 
+    [isReady]="isRegisterStepOneReady() ?? false"
     [errorMessage]="registerStepOneErrorMessage()">
     
     <input autocomplete="off" placeholder="E-mail" type="email" [value]="registerEmail()" (input)="updateRegisterEmail($event)">
@@ -45,6 +45,7 @@
     (closeDialog)="closeRegisterStepTwoDialog()" 
     (continueClick)="createAccount()"
     [isReady]="isRegisterStepTwoReady()" 
+    [loading]="registerLoading()" 
     [errorMessage]="registerStepTwoErrorMessage()">
 
     <input autocomplete="off" placeholder="Nazwa użytkownika" [value]="registerUsername()" (input)="updateRegisterUsername($event)">
@@ -57,13 +58,15 @@
 
 <app-dialog
     dialogTitle="Znajdź swoje konto" 
-    dialogHint="Wprowadź swój adres e-mail lub nazwę użytkownika, aby zresetować hasło." 
+    dialogHint="Wprowadź swój adres e-mail, aby zresetować hasło." 
     [dialogOpen]="resetDialogOpen()" 
-    (closeDialog)="closeResetDialog()" 
+    (closeDialog)="closeResetDialog()"
+    (continueClick)="sendResetEmail()" 
     [isReady]="isResetReady()" 
-    [errorMessage]="resetErrorMessage()">
+    [errorMessage]="resetErrorMessage()"
+    [loading]="resetLoading()">
 
-    <input autocomplete="off" placeholder="E-mail lub nazwa użytkownika" [value]="resetEmailOrUsername()" (input)="updateResetEmailOrUsername($event)">
+    <input autocomplete="off" placeholder="E-mail" [value]="resetEmail()" (input)="updateResetEmail($event)">
 
 </app-dialog>
 

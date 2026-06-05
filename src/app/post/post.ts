@@ -38,7 +38,13 @@ export class Post {
 
   repostedByName = signal("");
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    if (this.postData().mediaURLs.length > 0) {
+      const aspectRatio = await this.getImageAspectRatio('http://' + this.postData().mediaURLs[0]);
+      console.log(aspectRatio)
+      this.firstImageAspectRatio.set(aspectRatio);
+    }
 
     if (this.repostedBy()) {
       fetch(`/api/user/${this.repostedBy()}`)
@@ -164,5 +170,26 @@ export class Post {
     if (this.postReposted()) this.unrepost();
     else this.repost();
   }
+
+  //-----media-----
+
+  mediaCount = computed(() => {
+    return this.postData().mediaURLs.length;
+  })
+
+  firstImageAspectRatio = signal(0);
+
+  getImageAspectRatio(url: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      
+      img.onload = () => {
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        resolve(aspectRatio);
+      };
+
+      img.src = url;
+  });
+}
 
 }

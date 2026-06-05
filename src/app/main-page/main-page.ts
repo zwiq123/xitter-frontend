@@ -10,6 +10,11 @@ import { Post } from '../post/post';
 })
 export class MainPage {
   clickLogout = output<void>();
+  logoutBtnShown = signal(false);
+
+  clickProfilePic() {
+    this.logoutBtnShown.set(!this.logoutBtnShown());
+  }
 
   logout() {
     this.clickLogout.emit();
@@ -20,6 +25,30 @@ export class MainPage {
   accessToken = input.required<string>();
 
   feed = signal<any[]>([])
+
+  updateFeed() {
+    fetch("/api/user/feed", {
+      headers: {
+        "Authorization": `Bearer ${this.accessToken()}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      const feedPosts = [];
+      for (const post of data) {
+        const postData = post.post;
+        const score = post.score;
+        if (postData.reposts) {
+          continue;
+          // feedPosts.push({score, post: {...postData.reposts, repostedBy: postData.reposts.author, author: postData.author}});
+        } else {
+          feedPosts.push(post);
+        }
+      }
+      this.feed.set(feedPosts);
+      console.log(this.feed())
+    })
+  }
 
   ngOnInit() {
 
@@ -43,27 +72,7 @@ export class MainPage {
       }
     })
     .then(() => {
-      fetch("/api/user/feed", {
-        headers: {
-          "Authorization": `Bearer ${this.accessToken()}`
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        const feedPosts = [];
-        for (const post of data) {
-          const postData = post.post;
-          const score = post.score;
-          if (postData.reposts) {
-            continue;
-            // feedPosts.push({score, post: {...postData.reposts, repostedBy: postData.reposts.author, author: postData.author}});
-          } else {
-            feedPosts.push(post);
-          }
-        }
-        this.feed.set(feedPosts);
-        console.log(this.feed())
-      })
+      this.updateFeed();
     })
   }
 

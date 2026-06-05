@@ -1,6 +1,7 @@
-import { Component, signal, computed, output, model, linkedSignal } from '@angular/core';
+import { Component, signal, computed, output, model, linkedSignal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Dialog } from '../dialog/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-screen',
@@ -9,6 +10,8 @@ import { Dialog } from '../dialog/dialog';
   styleUrl: './login-screen.css',
 })
 export class LoginScreen {
+
+  private toastr = inject(ToastrService)
 
   clickLogin = output<void>();
   updateAccessToken = output<string>();
@@ -146,16 +149,17 @@ export class LoginScreen {
   registerImageUrl = signal("/default_profile_pic.png");
   registerImageFile = signal<File | undefined>(undefined);
 
-  isEmailAnEmail = () => {
-    return this.registerEmail()
+  isEmailAnEmail = (email: string) => {
+    const matches = email
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
+    return matches == null ? false : true;
   };
 
   isRegisterStepOneReady = computed(() => {
-    return  this.isEmailAnEmail() &&
+    return  this.isEmailAnEmail(this.registerEmail()) &&
             this.registerPassword().trim() != "" && 
             this.registerRepeatPassword().trim() != "" &&
             this.registerStepOneErrorMessage() == "";
@@ -193,7 +197,10 @@ export class LoginScreen {
     }
   }
 
+  registerLoading = signal(false);
+
   async createAccount() {
+    this.registerLoading.set(true);
     const uploadToken = (await fetch("/api/auth/preRegister").then(res => res.json()))["upload_token"];
 
     let file: File;
@@ -233,8 +240,11 @@ export class LoginScreen {
       },
       body: JSON.stringify(signupJSON)
     }).then(async res => {
+      this.registerLoading.set(false);
       if (!res.ok) {
-        console.log("ok")
+        if (res.status === 409) this.registerStepTwoErrorMessage.set("Już istnieje konto o podanym e-mailu lub nazwie użytkownika"); 
+        else this.registerStepTwoErrorMessage.set("Coś poszło nietak");
+        return;
       }
       try {
         const data = await res.json();
@@ -268,7 +278,7 @@ export class LoginScreen {
   })
 
   registerStepOneErrorMessage = computed(() => {
-    if (this.registerEmail().length != 0 && !this.isEmailAnEmail()) return "Nieprawidłowy format emaila."
+    if (this.registerEmail().length != 0 && !this.isEmailAnEmail(this.registerEmail())) return "Nieprawidłowy format emaila."
 
     if (this.registerPassword().length != 0 && this.registerPassword().length < 8) return "Hasło musi mieć przynajmniej 8 znaków."
     
@@ -325,6 +335,8 @@ export class LoginScreen {
 
   // reset dialog
 
+  resetLoading = signal(false);
+
   resetDialogOpen = signal(false);
 
   openResetDialog() {
@@ -335,24 +347,48 @@ export class LoginScreen {
   closeResetDialog() {
     this.resetDialogOpen.set(false);
     this.loginDialogOpen.set(true);
-    this.resetEmailOrUsername.set("");
+    this.resetEmail.set("");
   }
 
-  resetEmailOrUsername = signal("");
+  resetEmail = signal("");
 
-  updateResetEmailOrUsername($event: any){
+  updateResetEmail($event: any){
     if (!$event.target) return;
-    this.resetEmailOrUsername.set($event.target.value);
+    this.resetEmail.set($event.target.value);
   }
 
-  resetErrorMessage = computed(() => {
+  resetErrorMessage = linkedSignal<"" | "Nieprawidłowy format maila" | "Coś poszło nietak z wysłaniem emaila">(() => {
+    if (this.resetEmail() == "") return "";
+    if (!this.isEmailAnEmail(this.resetEmail())) return "Nieprawidłowy format maila";
     return "";
   })
 
   isResetReady = computed(() => {
-    return this.resetEmailOrUsername() != "";
+    const isAnEmail = this.isEmailAnEmail(this.resetEmail());
+    return this.resetEmail() != "" && isAnEmail;
   })
 
+  sendResetEmail() {
+    this.resetLoading.set(true);
+    const resetBody = {
+      email: this.resetEmail()
+    }
 
+    fetch("/api/auth/sendResetPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(resetBody)
+    })
+    .then(res => {
+      if (!res.ok) {
+        this.resetErrorMessage.set("Coś poszło nietak z wysłaniem emaila")
+      } else {
+        this.toastr.success("Sprawdź pocztę")
+      }
+      this.resetLoading.set(false);
+    })
+  }
 
 }

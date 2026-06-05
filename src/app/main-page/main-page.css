@@ -1,6 +1,16 @@
 @media only screen and (max-width: 1148px) {
-    #profile div {
+    #profilename {
         display: none !important;
+    }
+
+    #profile-rightside {
+        position: absolute;
+        z-index: 0;
+        transition: top 0.2s;
+    }
+
+    #profile img {
+        z-index: 1;
     }
 
     #profile{
@@ -86,7 +96,8 @@ header button {
     align-items: center;
     gap: 12px;
     color: rgb(231, 233, 234);
-    margin: 12px 0
+    margin: 12px 0;
+    position: relative;
 }
 
 #profile img {

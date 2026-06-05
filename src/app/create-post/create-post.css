@@ -145,8 +145,8 @@ button#post:not([disabled]):hover {
 }
 
 .grid1 {
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
 }
 
 .grid1 > div, .grid2 > div {
@@ -154,13 +154,13 @@ button#post:not([disabled]):hover {
 }
 
 .grid2 {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
 }
 
 .grid3, .grid4 {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
 .grid3 .image-grid-item:nth-child(1) {

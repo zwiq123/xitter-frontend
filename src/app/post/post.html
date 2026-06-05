@@ -25,9 +25,10 @@
                 </div>
                 <div class="post-text-content" [innerHTML]="postTextContent()"></div>
                 @if (showMedia()) {
-                    <div class="post-media-box">
-                        @for(media of postData().mediaURLs ; track $index) {
-                            <img alt="postMedia" [src]="'http://' + media" class="post-media" loading="lazy">
+                    <div class="post-media-box" [class]="'grid' + mediaCount()">
+                        @for (media of postData().mediaURLs; track $index) {
+                            <img alt="postMedia" [src]="'http://' + media" class="post-media" loading="lazy" [style.--aspect-ratio]="firstImageAspectRatio()">
+                            <!-- <div class="image-grid-item" style="background-image: url({{img}});" ></div> -->
                         }
                     </div>
                 }

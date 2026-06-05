@@ -20,6 +20,8 @@ export class Dialog {
 
   errorMessage = input.required<string>();
 
+  loading = input<boolean>(false);
+
   close() {
     this.closeDialog.emit();
   }

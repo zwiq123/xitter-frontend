@@ -1,15 +1,15 @@
 <div id="main-box">
     <div id="left-box">
         <header>
-            <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30" loading="lazy"></button>
+            <button type="button"><img alt="logo" src="/logo.svg" width="30" height="30" loading="lazy" (click)="updateFeed()"></button>
         </header>
-        <div id="profile">
+        <div id="profile" (click)="clickProfilePic()" >
             <img alt="profilepic" [src]="'http://' + loggedInProfile().image" width="40" height="40" loading="lazy">
             <div id="profilename">
                 <span id="username">{{loggedInProfile().name}}</span>
                 <span id="tag">@{{loggedInProfile().tag}}</span>
             </div>
-            <div id="profile-rightside">
+            <div id="profile-rightside" [style.top]="logoutBtnShown() ? '-42px' : '10px'">
                 <button type="button" (click)="logout()">
                     <img alt="logout" src="/logout.png" width="26" height="26" loading="lazy">
                 </button>
