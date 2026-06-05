@@ -9,6 +9,17 @@ block
 mute
 
 textarea caret color change
+shrunk window logout
+top logo icon refresh
+default profile picture
+reset pass
+loading (account creation, page refresh, post creation)
+toasts (post creation)
+post image display
+
+post click
+
+replies idfk?
 
 mainpage
 check login

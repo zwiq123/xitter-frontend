@@ -63,7 +63,7 @@ textarea {
   min-height: 24px;
 }
 
-::ng-deep .hashtag{
+::ng-deep #highlight-layer .hashtag{
     color: #1d9bf0;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 20px;

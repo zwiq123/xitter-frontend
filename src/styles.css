@@ -3,7 +3,7 @@
 @font-face {
     font-family: TwitterChirpExtendedHeavy;
     src: url("/chirp-extended-heavy-web.woff2") format('woff2'), url("/chirp-extended-heavy-web.woff") format('woff');
-    font-weight: 800;
+    /* font-weight: 800; */
     font-style: 'normal';
     font-display: 'swap';
 }
@@ -17,6 +17,7 @@
 body {
     background-color: black;
     height: 100vh;
+    overflow-x: hidden;
 }
 
 app-login-screen {
@@ -33,4 +34,8 @@ app-main-page {
 
 p, h1, h2, h3, h4, h5, h6 {
     color: white;
+}
+
+img, svg {
+    user-select: none;
 }

@@ -10,21 +10,31 @@
     #right-box {
         width: 64px;
     }
+
+    #main-box {
+        padding-left: 80px;
+    }
 }
 
 @media only screen and (min-width: 1149px) {
     #profile, #right-box {
         width: 235px;
     }
+
+    #main-box {
+        padding-left: 275px;
+    }
 }
 
 #main-box {
+    box-sizing: border-box;
     width: 100%;
     max-width: 1116px;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    position: relative;
 }
 
 #left-box {
@@ -33,6 +43,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 8px;
+    position: fixed;
+    height: 100vh;
+    position-anchor: --center-box;
+    right: anchor(left);
+    top: 0;
 }
 
 #right-box {
@@ -120,7 +135,9 @@ header button {
 
 #center-box {
     /* background-color: rgb(11, 11, 11); */
-    height: 100%;
+    anchor-name: --center-box;
+    min-height: 100%;
+    height: fit-content;
     width: 100%;
     max-width: 566px;
     display: flex;
@@ -130,6 +147,6 @@ header button {
     border-style: solid;
 }
 
-#feed {
-    padding: 0 16px;
+::ng-deep app-post:nth-last-child(1) .post-body {
+    border-bottom: none;
 }

@@ -20,7 +20,10 @@
     <div id="center-box">
         <app-create-post [loggedInProfile]="loggedInProfile()" [accessToken]="accessToken()"></app-create-post>
         <div id="feed">
-
+            @for(post of feed() ; track $index) {
+                <!-- <p>{{post.score}}</p> -->
+                <app-post [postData]="post.post"></app-post>
+            }
         </div>
     </div>
 
