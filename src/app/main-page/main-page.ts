@@ -46,7 +46,6 @@ export class MainPage {
         }
       }
       this.feed.set(feedPosts);
-      console.log(this.feed())
     })
   }
 

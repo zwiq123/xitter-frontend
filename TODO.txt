@@ -1,35 +1,16 @@
-reset password ?
-
-feed display
 profile details display
 profile details edit
-post create
 follow
 block
 mute
-
-textarea caret color change
-shrunk window logout
-top logo icon refresh
-default profile picture
-reset pass
-loading (account creation, page refresh, post creation)
-toasts (post creation)
-post image display
-post videos
-
+post video
 post click
-
 replies idfk?
 
-mainpage
-check login
-login/register
-layout
-see posts
-see profile
-logout
-create posts
+posts:
+ - profile
+ - hashtag
+ - thread ?
 
 responsiveness
 exceptions

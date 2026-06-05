@@ -111,7 +111,6 @@ export class ResetPasswordPage {
 
   resetPassword() {
     this.loading.set(true);
-    console.log(this.hash())
     if (this.hash() == null) {
       this.errorMessage.set("Nieprawidłowy hash");
       return;

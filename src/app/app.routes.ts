@@ -5,15 +5,7 @@ import { MainPage } from './main-page/main-page';
 
 export const routes: Routes = [
     {
-        path: "login",
-        component: LoginScreen
-    },
-    {
         path: "reset",
         component: ResetPasswordPage
     },
-    {
-        path: "main",
-        component: MainPage
-    }
 ];

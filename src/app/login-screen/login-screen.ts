@@ -264,7 +264,6 @@ export class LoginScreen {
           this.openFinishDialog();
         }
       } catch(err) {
-        console.log("error")
         console.log(err);
       }
     })

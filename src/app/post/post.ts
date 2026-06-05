@@ -42,7 +42,6 @@ export class Post {
 
     if (this.postData().mediaURLs.length > 0) {
       const aspectRatio = await this.getImageAspectRatio('http://' + this.postData().mediaURLs[0]);
-      console.log(aspectRatio)
       this.firstImageAspectRatio.set(aspectRatio);
     }
 
